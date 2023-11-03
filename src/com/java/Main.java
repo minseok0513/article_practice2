@@ -51,14 +51,8 @@ public class Main {
 			} else if (command.startsWith("article detail ")) {
 				String[] commandBits = command.split(" ");
 				int id = Integer.parseInt(commandBits[2]);
-				Article foundArticle = null;
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
+
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물이 없습니다.\n", id);
 					continue;
@@ -72,15 +66,9 @@ public class Main {
 			} else if (command.startsWith("article delete ")) {
 				String[] commandBits = command.split(" ");
 				int id = Integer.parseInt(commandBits[2]);
-				Article foundArticle = null;
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-				}
-				if (foundArticle == null) {
+				int foundArticle = getArticleIndexById(id);
+
+				if (foundArticle == -1) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 				}
 				articles.remove(foundArticle);
@@ -88,14 +76,8 @@ public class Main {
 			} else if (command.startsWith("article modify ")) {
 				String[] commandBits = command.split(" ");
 				int id = Integer.parseInt(commandBits[2]);
-				Article foundArticle = null;
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
+
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
@@ -116,6 +98,27 @@ public class Main {
 
 	}
 
+	private static int getArticleIndexById(int id) {
+		for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+			if (article.id == id) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private static Article getArticleById(int id) {
+		for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+			if (article.id == id) {
+				return article;
+
+			}
+		}
+		return null;
+	}
+
 	private static void MakeTestData() {
 		System.out.println("테스트데이터 3개를 생성합니다.");
 		articles.add(new Article(1, Util.getNowDateStr(), "제목 1", "내용 1", 11));
@@ -130,13 +133,14 @@ class Article {
 	String title;
 	String body;
 	int views;
-	Article(int id, String regDate, String title, String body){
+
+	Article(int id, String regDate, String title, String body) {
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
 	}
-	
+
 	Article(int id, String regDate, String title, String body, int views) {
 		this.id = id;
 		this.regDate = regDate;
