@@ -10,6 +10,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		List<Article> articles = new ArrayList<Article>();
 		int lastArticleId=0;
+		int views=0;
 		System.out.println("==프로그램 시작==");
 		while (true) {
 			System.out.printf("명령문 ) ");
@@ -27,10 +28,10 @@ public class Main {
 					System.out.println("게시물이 없습니다.");
 					continue;
 				} else {
-					System.out.println("번호  |   제목");
+					System.out.println("번호  |   제목   |   조회수");
 					for(int i =articles.size()-1; i>=0; i--) {
 						Article article = articles.get(i);
-						System.out.printf("%d   |   %s\n",article.id,article.title);
+						System.out.printf("%d   |   %s     |     %d\n",article.id,article.title,views);
 					}
 				}
 			}else if (command.equals("article write")) {
@@ -64,6 +65,7 @@ public class Main {
 				System.out.printf("작성시간 : %s\n",foundArticle.regDate);
 				System.out.printf("제목 : %s\n",foundArticle.title);
 				System.out.printf("내용 : %s\n",foundArticle.body);
+				views++;
 			} else if(command.startsWith("article delete ")){
 				String[] commandBits = command.split(" ");
 				int id = Integer.parseInt(commandBits[2]);
